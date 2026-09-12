@@ -166,6 +166,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.SaveButton = new System.Windows.Forms.Button();
             this.NotesButton = new System.Windows.Forms.Button();
+            this.PathButton = new System.Windows.Forms.Button();
             this.MtCoronetPeak = new LeahsPlatinumTracker.MapSelectorButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -1524,7 +1525,7 @@
             this.r203.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r203.FlatAppearance.BorderSize = 2;
             this.r203.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r203.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r203.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r203.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r203.Location = new System.Drawing.Point(7, 3);
             this.r203.Name = "r203";
@@ -1541,7 +1542,7 @@
             this.r204.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r204.FlatAppearance.BorderSize = 2;
             this.r204.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r204.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r204.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r204.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r204.Location = new System.Drawing.Point(50, 3);
             this.r204.Name = "r204";
@@ -1558,7 +1559,7 @@
             this.r205.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r205.FlatAppearance.BorderSize = 2;
             this.r205.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r205.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r205.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r205.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r205.Location = new System.Drawing.Point(7, 32);
             this.r205.Name = "r205";
@@ -1575,7 +1576,7 @@
             this.r206.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r206.FlatAppearance.BorderSize = 2;
             this.r206.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r206.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r206.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r206.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r206.Location = new System.Drawing.Point(50, 32);
             this.r206.Name = "r206";
@@ -1592,7 +1593,7 @@
             this.r207.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r207.FlatAppearance.BorderSize = 2;
             this.r207.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r207.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r207.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r207.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r207.Location = new System.Drawing.Point(7, 61);
             this.r207.Name = "r207";
@@ -1609,7 +1610,7 @@
             this.r208.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r208.FlatAppearance.BorderSize = 2;
             this.r208.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r208.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r208.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r208.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r208.Location = new System.Drawing.Point(50, 61);
             this.r208.Name = "r208";
@@ -1626,7 +1627,7 @@
             this.r209.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r209.FlatAppearance.BorderSize = 2;
             this.r209.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r209.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r209.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r209.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r209.Location = new System.Drawing.Point(7, 90);
             this.r209.Name = "r209";
@@ -1643,7 +1644,7 @@
             this.r210.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r210.FlatAppearance.BorderSize = 2;
             this.r210.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r210.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r210.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r210.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r210.Location = new System.Drawing.Point(50, 90);
             this.r210.Name = "r210";
@@ -1660,7 +1661,7 @@
             this.r211.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r211.FlatAppearance.BorderSize = 2;
             this.r211.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r211.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r211.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r211.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r211.Location = new System.Drawing.Point(7, 119);
             this.r211.Name = "r211";
@@ -1677,7 +1678,7 @@
             this.r212.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r212.FlatAppearance.BorderSize = 2;
             this.r212.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r212.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r212.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r212.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r212.Location = new System.Drawing.Point(50, 119);
             this.r212.Name = "r212";
@@ -1694,7 +1695,7 @@
             this.r213.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r213.FlatAppearance.BorderSize = 2;
             this.r213.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r213.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r213.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r213.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r213.Location = new System.Drawing.Point(7, 148);
             this.r213.Name = "r213";
@@ -1711,7 +1712,7 @@
             this.r214.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r214.FlatAppearance.BorderSize = 2;
             this.r214.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r214.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r214.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r214.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r214.Location = new System.Drawing.Point(50, 148);
             this.r214.Name = "r214";
@@ -1728,7 +1729,7 @@
             this.r215.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r215.FlatAppearance.BorderSize = 2;
             this.r215.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r215.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r215.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r215.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r215.Location = new System.Drawing.Point(7, 177);
             this.r215.Name = "r215";
@@ -1745,7 +1746,7 @@
             this.r216.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r216.FlatAppearance.BorderSize = 2;
             this.r216.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r216.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r216.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r216.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r216.Location = new System.Drawing.Point(50, 177);
             this.r216.Name = "r216";
@@ -1762,7 +1763,7 @@
             this.r217.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r217.FlatAppearance.BorderSize = 2;
             this.r217.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r217.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r217.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r217.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r217.Location = new System.Drawing.Point(7, 206);
             this.r217.Name = "r217";
@@ -1779,7 +1780,7 @@
             this.r221.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r221.FlatAppearance.BorderSize = 2;
             this.r221.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r221.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r221.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r221.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r221.Location = new System.Drawing.Point(50, 206);
             this.r221.Name = "r221";
@@ -1796,7 +1797,7 @@
             this.r222.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r222.FlatAppearance.BorderSize = 2;
             this.r222.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r222.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r222.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r222.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r222.Location = new System.Drawing.Point(7, 235);
             this.r222.Name = "r222";
@@ -1813,7 +1814,7 @@
             this.r225.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r225.FlatAppearance.BorderSize = 2;
             this.r225.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r225.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r225.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r225.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r225.Location = new System.Drawing.Point(50, 235);
             this.r225.Name = "r225";
@@ -1830,7 +1831,7 @@
             this.r226.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r226.FlatAppearance.BorderSize = 2;
             this.r226.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r226.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r226.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r226.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r226.Location = new System.Drawing.Point(7, 264);
             this.r226.Name = "r226";
@@ -1847,7 +1848,7 @@
             this.r227.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r227.FlatAppearance.BorderSize = 2;
             this.r227.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r227.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r227.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r227.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r227.Location = new System.Drawing.Point(50, 264);
             this.r227.Name = "r227";
@@ -1864,7 +1865,7 @@
             this.r228.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
             this.r228.FlatAppearance.BorderSize = 2;
             this.r228.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.r228.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.r228.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.r228.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
             this.r228.Location = new System.Drawing.Point(7, 293);
             this.r228.Name = "r228";
@@ -2257,6 +2258,7 @@
             this.panel4.Controls.Add(this.r216);
             this.panel4.Controls.Add(this.r217);
             this.panel4.Controls.Add(this.NotesButton);
+            this.panel4.Controls.Add(this.PathButton);
             this.panel4.Location = new System.Drawing.Point(1165, 134);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(92, 802);
@@ -2295,7 +2297,24 @@
             this.NotesButton.UseCompatibleTextRendering = true;
             this.NotesButton.UseVisualStyleBackColor = false;
             this.NotesButton.Click += new System.EventHandler(this.NotesButton_Click);
-            // 
+            //
+            // PathButton
+            //
+            this.PathButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(183)))), ((int)(((byte)(214)))));
+            this.PathButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(146)))), ((int)(((byte)(190)))));
+            this.PathButton.FlatAppearance.BorderSize = 2;
+            this.PathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PathButton.Font = new System.Drawing.Font("Nirmala UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.PathButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(82)))), ((int)(((byte)(129)))));
+            this.PathButton.Location = new System.Drawing.Point(7, 716);
+            this.PathButton.Name = "PathButton";
+            this.PathButton.Size = new System.Drawing.Size(80, 23);
+            this.PathButton.TabIndex = 109;
+            this.PathButton.Text = "Path";
+            this.PathButton.UseCompatibleTextRendering = true;
+            this.PathButton.UseVisualStyleBackColor = false;
+            this.PathButton.Click += new System.EventHandler(this.PathButton_Click);
+            //
             // MtCoronetPeak
             // 
             this.MtCoronetPeak.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(183)))), ((int)(((byte)(214)))));
@@ -2591,6 +2610,7 @@
         private MarkerSelector markerSelector22;
         private Button SaveButton;
         private Button NotesButton;
+        private Button PathButton;
         private MarkerSelector markerSelector25;
         private Panel panel8;
         private MarkerSelector markerSelector26;

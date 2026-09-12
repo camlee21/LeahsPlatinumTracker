@@ -824,6 +824,254 @@ namespace LeahsPlatinumTracker
         }
 
         /// <summary>
+        /// Evaluates if a <see cref="Condition"/> represents a fast-travel style shortcut (flying or teleporting directly into a Pokémon Centre) rather than a normal physical/walking connection.                <br />
+        /// These are excluded from pathfinding entirely, since - unlike a normal <see cref="Condition"/> - they don't represent an actual physical route between two locations; the Pokémon Centre's real entrance is a randomised <see cref="Warp"/> that must be discovered and linked by the player like any other.
+        /// </summary>
+        /// <param name="condition">The <see cref="Condition"/> to evaluate.</param>
+        /// <returns>A boolean pertaining to whether the given <paramref name="condition"/> is gated solely behind Fly or the move Teleport.</returns>
+        private static bool IsFastTravelCondition(Condition condition)
+        {
+            Checks checks = condition.RequiredChecks;
+            if (checks.HMs == (int)PlatinumChecks.HMFlags.HM02 && checks.ChecksMade == 0) return true; // Flying directly into a town's Pokemon Centre
+            if (checks.ChecksMade == (int)PlatinumChecks.CheckFlags.HasTeleport && checks.HMs == 0) return true; // Teleporting to the last visited Pokemon Centre
+            return false;
+        }
+
+        /// <summary>
+        /// Groups every <see cref="MapSector"/> into a distinct "location" for pathfinding purposes.                                                                                                     <br />
+        /// Sibling <see cref="MapSector"/>s within the same <see cref="VisualMapSector"/> are merged into a single location if they're connected by a normal physical <see cref="Condition"/> - even one gated behind an HM or story check (e.g. needing Cut to reach the TG Eterna entrance) - since they're still physically the same place, just partly blocked off.     <br />
+        /// They are kept as separate locations if only reachable via a fast-travel <see cref="Condition"/> (see <see cref="IsFastTravelCondition"/>) or a <see cref="Warp"/> the player has linked, since neither of those represent a real physical connection between the two areas.
+        /// </summary>
+        /// <returns>A dictionary mapping every <see cref="MapSector.MapID"/> to a canonical <see cref="MapSector.MapID"/> representing the location it belongs to.</returns>
+        public Dictionary<string, string> BuildLocationGroups()
+        {
+            Dictionary<string, string> parent = new Dictionary<string, string>();
+            foreach (MapSector sector in MapSectors) parent[sector.MapID] = sector.MapID;
+
+            string Find(string id)
+            {
+                while (parent[id] != id)
+                {
+                    parent[id] = parent[parent[id]];
+                    id = parent[id];
+                }
+                return id;
+            }
+
+            void Union(string a, string b)
+            {
+                string rootA = Find(a);
+                string rootB = Find(b);
+                if (rootA != rootB) parent[rootB] = rootA;
+            }
+
+            foreach (MapSector sector in MapSectors)
+            {
+                foreach (Condition condition in sector.Conditions)
+                {
+                    if (IsFastTravelCondition(condition)) continue;
+
+                    MapSector accessSector = GetMapSector(condition.AccessMap);
+                    if (accessSector == null || accessSector.ParentVisualMapSector != sector.ParentVisualMapSector) continue;
+
+                    Union(sector.MapID, accessSector.MapID);
+                }
+            }
+
+            // group members by their raw union-find root, then pick a stable, predictable canonical ID for each group
+            Dictionary<string, List<string>> clusters = new Dictionary<string, List<string>>();
+            foreach (MapSector sector in MapSectors)
+            {
+                string root = Find(sector.MapID);
+                if (!clusters.TryGetValue(root, out List<string> members))
+                {
+                    members = new List<string>();
+                    clusters[root] = members;
+                }
+                members.Add(sector.MapID);
+            }
+
+            Dictionary<string, string> groups = new Dictionary<string, string>();
+            foreach (List<string> members in clusters.Values)
+            {
+                VisualMapSector visualSector = GetMapSector(members[0]).ParentVisualMapSector;
+                string canonical = members.Contains(visualSector.VisualMapID) ? visualSector.VisualMapID : members.OrderBy(id => id).First();
+                foreach (string member in members) groups[member] = canonical;
+            }
+
+            return groups;
+        }
+
+        /// <summary>
+        /// Returns a display-friendly name for a location (as grouped by <see cref="BuildLocationGroups"/>) to show in the pathfinder UI.
+        /// </summary>
+        /// <param name="locationID">The canonical <see cref="MapSector.MapID"/> of the location, as returned by <see cref="BuildLocationGroups"/>.</param>
+        /// <param name="groups">An optional precomputed result of <see cref="BuildLocationGroups"/>, to avoid recalculating it for every location.</param>
+        /// <returns>The <see cref="VisualMapSector.DisplayName"/> alone if the location is the only one within its <see cref="VisualMapSector"/>; otherwise the <see cref="VisualMapSector.DisplayName"/> suffixed with a distinguishing part of the representative <see cref="MapSector.MapID"/>.</returns>
+        public string GetLocationDisplayName(string locationID, Dictionary<string, string> groups = null)
+        {
+            MapSector sector = GetMapSector(locationID);
+            if (sector == null) return locationID;
+
+            VisualMapSector visualSector = sector.ParentVisualMapSector;
+            if (visualSector == null) return sector.MapID;
+
+            groups ??= BuildLocationGroups();
+
+            HashSet<string> siblingLocations = new HashSet<string>();
+            foreach (MapSector sibling in visualSector.MapSectors) siblingLocations.Add(groups[sibling.MapID]);
+
+            if (siblingLocations.Count == 1 || locationID == visualSector.VisualMapID) return visualSector.DisplayName;
+
+            string suffix = sector.MapID;
+            if (suffix.StartsWith(visualSector.VisualMapID)) suffix = suffix.Substring(visualSector.VisualMapID.Length).Trim();
+            if (string.IsNullOrEmpty(suffix)) suffix = sector.MapID;
+
+            return $"{visualSector.DisplayName} ({suffix})";
+        }
+
+        /// <summary>
+        /// Builds an undirected adjacency graph between locations (as grouped by <see cref="BuildLocationGroups"/>), based on the map's normal physical connections (<see cref="Condition.AccessMap"/>) and any <see cref="Warp"/> connections the player has linked together.                            <br />
+        /// Fast-travel <see cref="Condition"/>s (see <see cref="IsFastTravelCondition"/>) are ignored entirely - a location such as a Pokémon Centre only becomes reachable once the player links its actual entrance <see cref="Warp"/>.
+        /// </summary>
+        /// <returns>A dictionary mapping each location's canonical <see cref="MapSector.MapID"/> to the set of canonical <see cref="MapSector.MapID"/>s it directly connects to.</returns>
+        public Dictionary<string, HashSet<string>> BuildLocationGraph()
+        {
+            Dictionary<string, string> groups = BuildLocationGroups();
+
+            Dictionary<string, HashSet<string>> graph = new Dictionary<string, HashSet<string>>();
+            foreach (string location in groups.Values.Distinct())
+            {
+                graph[location] = new HashSet<string>();
+            }
+
+            void AddEdge(string locationA, string locationB)
+            {
+                if (locationA == null || locationB == null || locationA == locationB) return;
+                graph[locationA].Add(locationB);
+                graph[locationB].Add(locationA);
+            }
+
+            foreach (MapSector sector in MapSectors)
+            {
+                string sectorLocation = groups[sector.MapID];
+
+                foreach (Condition condition in sector.Conditions)
+                {
+                    if (IsFastTravelCondition(condition)) continue;
+
+                    MapSector accessSector = GetMapSector(condition.AccessMap);
+                    if (accessSector == null) continue;
+
+                    AddEdge(sectorLocation, groups[accessSector.MapID]);
+                }
+
+                foreach (Warp warp in sector.Warps)
+                {
+                    if (!warp.HasDestination) continue;
+
+                    MapSector destinationSector = GetMapSector(warp.Destination.MapID);
+                    if (destinationSector == null) continue;
+
+                    AddEdge(sectorLocation, groups[destinationSector.MapID]);
+                }
+            }
+
+            return graph;
+        }
+
+        /// <summary>
+        /// Finds the shortest path between two locations (<see cref="MapSector"/>s), using the map's normal physical connections and any <see cref="Warp"/> connections the player has made.
+        /// </summary>
+        /// <param name="startLocation">The <see cref="MapSector.MapID"/> of the starting location.</param>
+        /// <param name="endLocation">The <see cref="MapSector.MapID"/> of the destination location.</param>
+        /// <returns>An ordered list of <see cref="MapSector.MapID"/>s representing the shortest path, or <b>null</b> if no path exists.</returns>
+        public List<string> FindShortestPath(string startLocation, string endLocation)
+        {
+            Dictionary<string, HashSet<string>> graph = BuildLocationGraph();
+            if (!graph.ContainsKey(startLocation) || !graph.ContainsKey(endLocation)) return null;
+            if (startLocation == endLocation) return new List<string> { startLocation };
+
+            Dictionary<string, string> previous = new Dictionary<string, string>();
+            HashSet<string> visited = new HashSet<string> { startLocation };
+            Queue<string> queue = new Queue<string>();
+            queue.Enqueue(startLocation);
+
+            while (queue.Count > 0)
+            {
+                string current = queue.Dequeue();
+                foreach (string neighbour in graph[current])
+                {
+                    if (!visited.Add(neighbour)) continue;
+                    previous[neighbour] = current;
+
+                    if (neighbour == endLocation)
+                    {
+                        List<string> path = new List<string> { endLocation };
+                        string node = endLocation;
+                        while (node != startLocation)
+                        {
+                            node = previous[node];
+                            path.Add(node);
+                        }
+                        path.Reverse();
+                        return path;
+                    }
+
+                    queue.Enqueue(neighbour);
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Finds every simple path (without revisiting a location) between two locations (<see cref="MapSector"/>s), using the map's normal physical connections and any <see cref="Warp"/> connections the player has made.  <br />
+        /// The search is bounded by <paramref name="maxResults"/> and <paramref name="maxDepth"/> to avoid excessive computation on highly connected maps.
+        /// </summary>
+        /// <param name="startLocation">The <see cref="MapSector.MapID"/> of the starting location.</param>
+        /// <param name="endLocation">The <see cref="MapSector.MapID"/> of the destination location.</param>
+        /// <param name="maxResults">The maximum amount of paths to return.</param>
+        /// <param name="maxDepth">The maximum amount of locations that can be visited within a single path.</param>
+        /// <returns>A list of paths, with each path being an ordered list of <see cref="MapSector.MapID"/>s.</returns>
+        public List<List<string>> FindAllPaths(string startLocation, string endLocation, int maxResults = 250, int maxDepth = 15)
+        {
+            List<List<string>> results = new List<List<string>>();
+            Dictionary<string, HashSet<string>> graph = BuildLocationGraph();
+            if (!graph.ContainsKey(startLocation) || !graph.ContainsKey(endLocation)) return results;
+
+            HashSet<string> visited = new HashSet<string>();
+            List<string> currentPath = new List<string>();
+
+            void Search(string current)
+            {
+                if (results.Count >= maxResults || currentPath.Count >= maxDepth) return;
+
+                currentPath.Add(current);
+                visited.Add(current);
+
+                if (current == endLocation)
+                {
+                    results.Add(new List<string>(currentPath));
+                }
+                else
+                {
+                    foreach (string neighbour in graph[current])
+                    {
+                        if (results.Count >= maxResults) break;
+                        if (!visited.Contains(neighbour)) Search(neighbour);
+                    }
+                }
+
+                visited.Remove(current);
+                currentPath.RemoveAt(currentPath.Count - 1);
+            }
+
+            Search(startLocation);
+            return results;
+        }
+
+        /// <summary>
         /// Save method. Serialises current tracker data to JSON and saves in a user defined location as an .lpt file.
         /// </summary>
         /// <param name="predeterminedFile">The optional filepath of the file to instantly save to, bypassing save file dialog.</param>

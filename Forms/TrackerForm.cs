@@ -17,6 +17,9 @@ namespace LeahsPlatinumTracker
         private string LoadedFile { get; set; } = string.Empty;
 
         internal UserNotes? NotesForm;
+        internal PathForm? PathFormInstance;
+
+        internal Dictionary<int, int> MarkerNavigationIndex = new Dictionary<int, int>();
 
         internal Panel? MainPanel;
         internal Button? LinkButton;
@@ -25,6 +28,7 @@ namespace LeahsPlatinumTracker
         internal Button? RedoButton;
         internal Button? SaveButton;
         internal Button? NotesButton;
+        internal Button? PathButton;
 
         internal List<((Warp warp1Prev, Warp warp1Post), (Warp warp2Prev, Warp warp2Post))> UndoHistory;
         internal List<((Warp warp1Prev, Warp warp1Post), (Warp warp2Prev, Warp warp2Post))> RedoHistory;
@@ -179,6 +183,7 @@ namespace LeahsPlatinumTracker
             UpdateMapSelectorButtons(this);
             activePanel.UpdateWarpAppearances();
             UpdateLinkHistoryButtons();
+            PathFormInstance?.Reload();
         }
 
         // Main Buttons
@@ -493,6 +498,60 @@ namespace LeahsPlatinumTracker
             else if (NotesForm.WindowState == FormWindowState.Minimized) NotesForm.WindowState = FormWindowState.Normal;
 
             else NotesForm.Focus();
+        }
+
+        internal void PathButton_Click(object sender, EventArgs e)
+        {
+            if (PathFormInstance == null)
+            {
+                PathFormInstance = new PathForm(Player);
+                PathFormInstance.FormClosed += (s, e) => { PathFormInstance = null; };
+                FormClosed += (s, e) => { if (PathFormInstance != null) PathFormInstance.Close(); };
+                PathFormInstance.Show(this);
+            }
+
+            else if (PathFormInstance.WindowState == FormWindowState.Minimized) PathFormInstance.WindowState = FormWindowState.Normal;
+
+            else PathFormInstance.Focus();
+        }
+
+        /// <summary>
+        /// Navigates the main map view to a location where a <see cref="Warp"/> has the given <paramref name="markerID"/> assigned, cycling to the next matching location on each successive call.                                            <br />
+        /// Plays the system error sound instead if the marker has never been assigned to any <see cref="Warp"/>, or if it has only ever been assigned to the <see cref="Warp"/> currently being viewed.
+        /// </summary>
+        /// <param name="markerID">The <see cref="Warp.VisualMarkers"/> value to search for.</param>
+        internal void NavigateMarkerLocations(int markerID)
+        {
+            List<Warp> matches = new List<Warp>();
+            foreach (MapSector sector in Player.MapSectors)
+            {
+                foreach (Warp warp in sector.Warps)
+                {
+                    if (warp.VisualMarkers == markerID) matches.Add(warp);
+                }
+            }
+
+            if (matches.Count == 0)
+            {
+                System.Media.SystemSounds.Beep.Play();
+                return;
+            }
+
+            if (matches.Count == 1 && activePanel != null)
+            {
+                string onlyVisualMapID = Player.GetVisualMapSector(matches[0].MapID)?.VisualMapID;
+                if (activePanel.Name == onlyVisualMapID || activePanel.Name == ("r" + onlyVisualMapID))
+                {
+                    System.Media.SystemSounds.Beep.Play();
+                    return;
+                }
+            }
+
+            int nextIndex = MarkerNavigationIndex.TryGetValue(markerID, out int lastIndex) ? (lastIndex + 1) % matches.Count : 0;
+            MarkerNavigationIndex[markerID] = nextIndex;
+
+            Warp target = matches[nextIndex];
+            LoadMapPanel(target.MapID, target.WarpID);
         }
 
     }

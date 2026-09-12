@@ -23,6 +23,7 @@ namespace LeahsPlatinumTracker
             base.RedoButton = RedoButton;
             base.SaveButton = SaveButton;
             base.NotesButton = NotesButton;
+            base.PathButton = PathButton;
         }
 
         public PlatinumTracker(Tracker _player, string LoadedFile) : base(_player, LoadedFile)
@@ -35,6 +36,7 @@ namespace LeahsPlatinumTracker
             base.RedoButton = RedoButton;
             base.SaveButton = SaveButton;
             base.NotesButton = NotesButton;
+            base.PathButton = PathButton;
 
             base.UpdateWindowTitle();
         }

@@ -28,7 +28,7 @@ namespace LeahsPlatinumTracker
         static void Main()
         {
             AddFileFontToCollection("Pokemon DPPt.ttf", CustomFonts);
-            //AddFileFontToCollection("PowerClear.ttf", CustomFonts);
+            AddFileFontToCollection("PowerClear.ttf", CustomFonts);
             AddFileFontToCollection("PowerClearB.ttf", CustomFonts);
 
             ApplicationConfiguration.Initialize();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,10 +25,8 @@ namespace LeahsPlatinumTracker
 
         private void MarkerSelector_MouseDown(object? sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                ParentForm.ApplyMarker(MarkerID);
-            }
+            if (e.Button == MouseButtons.Left) ParentForm.ApplyMarker(MarkerID);
+            else if (e.Button == MouseButtons.Right) ParentForm.NavigateMarkerLocations(MarkerID);
         }
     }
 }

@@ -91,7 +91,7 @@ namespace LeahsPlatinumTracker
                 Location = new Point(position.X + 32, position.Y);
                 Size = new(43, 23);
                 Text = "?";
-                Font = new Font("Power Clear", 9, FontStyle.Bold);
+                Font = new Font(Program.CustomFonts.Families[1], 9, FontStyle.Bold);
                 if (associatedWarp.ParentMapSector.IsUnlocked)
                 {
                     ForeColor = Color.FromArgb(255, 238, 238, 238);
