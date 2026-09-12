@@ -66,7 +66,7 @@
             // 
             this.GitHubLink.ActiveLinkColor = System.Drawing.Color.Firebrick;
             this.GitHubLink.AutoSize = true;
-            this.GitHubLink.Font = new System.Drawing.Font("Pokemon DPPt", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.GitHubLink.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.GitHubLink.LinkArea = new System.Windows.Forms.LinkArea(0, 6);
             this.GitHubLink.LinkColor = System.Drawing.SystemColors.MenuHighlight;
             this.GitHubLink.Location = new System.Drawing.Point(10, 306);
@@ -83,7 +83,7 @@
             // 
             this.VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.VersionLabel.AutoSize = true;
-            this.VersionLabel.Font = new System.Drawing.Font("Pokemon DPPt", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.VersionLabel.Font = new System.Drawing.Font(Program.CustomFonts.Families[0], 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.VersionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.VersionLabel.Location = new System.Drawing.Point(10, 282);
             this.VersionLabel.Name = "VersionLabel";

@@ -25,27 +25,28 @@ namespace LeahsPlatinumTracker
             InitializeComponent();
         }
 
-        private async void Index_Load(object sender, EventArgs e)
+        private void Index_Load(object sender, EventArgs e)
         {
             VersionLabel.Text = "v" + Program.Version; // set version label
 
-            if (System.Diagnostics.Debugger.IsAttached) return; // early exit in debug mode
-
-            try
-            {
-                Manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/shmove/LeahsPlatinumTracker");
-                CheckForUpdates();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was an error checking for new updates. Is something blocking this program from accessing the internet?\n\nError: " + (ex.InnerException?.Message ?? ex.Message), "Update error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Update checking disabled - this fork doesn't publish GitHub releases.
+            //if (System.Diagnostics.Debugger.IsAttached) return; // early exit in debug mode
+            //
+            //try
+            //{
+            //    Manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/camlee21/LeahsPlatinumTracker");
+            //    CheckForUpdates();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("There was an error checking for new updates. Is something blocking this program from accessing the internet?\n\nError: " + (ex.InnerException?.Message ?? ex.Message), "Update error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void LinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             GitHubLink.LinkVisited = true;
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/shmove/LeahsPlatinumTracker") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/camlee21/LeahsPlatinumTracker") { UseShellExecute = true });
         }
 
         private void NewFileButton_Click(object sender, EventArgs e)
