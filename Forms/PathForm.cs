@@ -10,7 +10,12 @@ namespace LeahsPlatinumTracker
 
         private Tracker Player { get; set; }
 
-        private const int MaxAllPaths = 250;
+        private const int MaxAllPaths = 3;
+
+        // When true, a Condition gated behind an HM/story check only counts (for grouping and pathing alike)
+        // while the player currently meets it - e.g. Mt Coronet Peak's two halves stay separate until Rock
+        // Climb is obtained. When false, every non-fast-travel Condition counts regardless of current progress.
+        private bool considerFlags = false;
 
         // Wraps a location (a group of one or more MapSectors, see Tracker.BuildLocationGroups) for display in
         // the location ComboBoxes. Locations that are genuinely part of the same physical place (e.g. Eterna and
@@ -34,15 +39,34 @@ namespace LeahsPlatinumTracker
 
         private void PathForm_Load(object sender, EventArgs e)
         {
-            Dictionary<string, string> groups = Player.BuildLocationGroups();
+            PopulateLocations();
+        }
+
+        // Repopulates the location dropdowns from the current groupings, re-selecting the same physical
+        // MapSectors as before (if given) even though their canonical location ID may have changed.
+        private void PopulateLocations(string preserveFromID = null, string preserveToID = null)
+        {
+            Dictionary<string, string> groups = Player.BuildLocationGroups(considerFlags);
 
             List<LocationItem> locations = groups.Values.Distinct()
                 .Select(locationID => new LocationItem { MapID = locationID, DisplayName = Player.GetLocationDisplayName(locationID, groups) })
                 .OrderBy(item => item.DisplayName)
                 .ToList();
 
+            comboFrom.Items.Clear();
+            comboTo.Items.Clear();
             comboFrom.Items.AddRange(locations.ToArray());
             comboTo.Items.AddRange(locations.ToArray());
+
+            if (preserveFromID != null && groups.TryGetValue(preserveFromID, out string newFromID))
+            {
+                comboFrom.SelectedItem = locations.FirstOrDefault(item => item.MapID == newFromID);
+            }
+
+            if (preserveToID != null && groups.TryGetValue(preserveToID, out string newToID))
+            {
+                comboTo.SelectedItem = locations.FirstOrDefault(item => item.MapID == newToID);
+            }
         }
 
         /// <summary>
@@ -51,6 +75,32 @@ namespace LeahsPlatinumTracker
         public void Reload()
         {
             if (comboFrom.SelectedItem != null && comboTo.SelectedItem != null) btnFindPath_Click(this, EventArgs.Empty);
+        }
+
+        private void btnFlagsConsidered_Click(object sender, EventArgs e)
+        {
+            considerFlags = !considerFlags;
+
+            if (considerFlags)
+            {
+                btnFlagsConsidered.Text = "Flags Considered: On";
+                btnFlagsConsidered.BackColor = Color.FromArgb(255, 160, 183, 214);
+                btnFlagsConsidered.ForeColor = Color.FromArgb(255, 54, 82, 129);
+                btnFlagsConsidered.FlatAppearance.BorderColor = Color.FromArgb(255, 112, 146, 190);
+            }
+            else
+            {
+                btnFlagsConsidered.Text = "Flags Considered: Off";
+                btnFlagsConsidered.BackColor = Color.FromArgb(255, 209, 209, 209);
+                btnFlagsConsidered.ForeColor = Color.FromArgb(255, 155, 155, 155);
+                btnFlagsConsidered.FlatAppearance.BorderColor = Color.FromArgb(255, 155, 155, 155);
+            }
+
+            string previousFrom = (comboFrom.SelectedItem as LocationItem)?.MapID;
+            string previousTo = (comboTo.SelectedItem as LocationItem)?.MapID;
+
+            PopulateLocations(previousFrom, previousTo);
+            Reload();
         }
 
         private void btnFindPath_Click(object sender, EventArgs e)
@@ -72,7 +122,9 @@ namespace LeahsPlatinumTracker
                 return;
             }
 
-            List<string> shortestPath = Player.FindShortestPath(from.MapID, to.MapID);
+            Dictionary<string, string> groups = Player.BuildLocationGroups(considerFlags);
+
+            List<string> shortestPath = Player.FindShortestPath(from.MapID, to.MapID, considerFlags);
 
             if (shortestPath == null)
             {
@@ -81,12 +133,12 @@ namespace LeahsPlatinumTracker
                 return;
             }
 
-            txtShortest.Text = StringifyPath(shortestPath);
+            txtShortest.Text = StringifyPath(shortestPath, groups);
 
-            List<List<string>> allPaths = Player.FindAllPaths(from.MapID, to.MapID, MaxAllPaths);
+            List<List<string>> allPaths = Player.FindAllPaths(from.MapID, to.MapID, MaxAllPaths, considerFlags: considerFlags);
             foreach (List<string> path in allPaths)
             {
-                listAllPaths.Items.Add(StringifyPath(path));
+                listAllPaths.Items.Add(StringifyPath(path, groups));
             }
 
             if (allPaths.Count >= MaxAllPaths)
@@ -95,9 +147,9 @@ namespace LeahsPlatinumTracker
             }
         }
 
-        private string StringifyPath(List<string> path)
+        private string StringifyPath(List<string> path, Dictionary<string, string> groups)
         {
-            return string.Join(" → ", path.Select(id => Player.GetLocationDisplayName(id)));
+            return string.Join(" → ", path.Select(id => Player.GetLocationDisplayName(id, groups)));
         }
 
     }

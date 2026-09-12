@@ -842,8 +842,9 @@ namespace LeahsPlatinumTracker
         /// Sibling <see cref="MapSector"/>s within the same <see cref="VisualMapSector"/> are merged into a single location if they're connected by a normal physical <see cref="Condition"/> - even one gated behind an HM or story check (e.g. needing Cut to reach the TG Eterna entrance) - since they're still physically the same place, just partly blocked off.     <br />
         /// They are kept as separate locations if only reachable via a fast-travel <see cref="Condition"/> (see <see cref="IsFastTravelCondition"/>) or a <see cref="Warp"/> the player has linked, since neither of those represent a real physical connection between the two areas.
         /// </summary>
+        /// <param name="considerFlags">If <b>true</b>, a gated <see cref="Condition"/> only merges its two <see cref="MapSector"/>s while the player's current <see cref="Checks"/> actually meet its requirements (e.g. Mt Coronet Peak's two halves stay separate until Rock Climb is obtained). If <b>false</b> (default), every non-fast-travel <see cref="Condition"/> merges regardless of current progress.</param>
         /// <returns>A dictionary mapping every <see cref="MapSector.MapID"/> to a canonical <see cref="MapSector.MapID"/> representing the location it belongs to.</returns>
-        public Dictionary<string, string> BuildLocationGroups()
+        public Dictionary<string, string> BuildLocationGroups(bool considerFlags = false)
         {
             Dictionary<string, string> parent = new Dictionary<string, string>();
             foreach (MapSector sector in MapSectors) parent[sector.MapID] = sector.MapID;
@@ -870,6 +871,7 @@ namespace LeahsPlatinumTracker
                 foreach (Condition condition in sector.Conditions)
                 {
                     if (IsFastTravelCondition(condition)) continue;
+                    if (considerFlags && !condition.RequiredChecks.MeetsRequirements(Checks)) continue;
 
                     MapSector accessSector = GetMapSector(condition.AccessMap);
                     if (accessSector == null || accessSector.ParentVisualMapSector != sector.ParentVisualMapSector) continue;
@@ -934,10 +936,11 @@ namespace LeahsPlatinumTracker
         /// Builds an undirected adjacency graph between locations (as grouped by <see cref="BuildLocationGroups"/>), based on the map's normal physical connections (<see cref="Condition.AccessMap"/>) and any <see cref="Warp"/> connections the player has linked together.                            <br />
         /// Fast-travel <see cref="Condition"/>s (see <see cref="IsFastTravelCondition"/>) are ignored entirely - a location such as a Pokémon Centre only becomes reachable once the player links its actual entrance <see cref="Warp"/>.
         /// </summary>
+        /// <param name="considerFlags">If <b>true</b>, both the location grouping and any remaining cross-location <see cref="Condition"/> only count while the player's current <see cref="Checks"/> actually meet their requirements. If <b>false</b> (default), every non-fast-travel <see cref="Condition"/> counts regardless of current progress. <see cref="Warp"/> connections always count either way.</param>
         /// <returns>A dictionary mapping each location's canonical <see cref="MapSector.MapID"/> to the set of canonical <see cref="MapSector.MapID"/>s it directly connects to.</returns>
-        public Dictionary<string, HashSet<string>> BuildLocationGraph()
+        public Dictionary<string, HashSet<string>> BuildLocationGraph(bool considerFlags = false)
         {
-            Dictionary<string, string> groups = BuildLocationGroups();
+            Dictionary<string, string> groups = BuildLocationGroups(considerFlags);
 
             Dictionary<string, HashSet<string>> graph = new Dictionary<string, HashSet<string>>();
             foreach (string location in groups.Values.Distinct())
@@ -959,6 +962,7 @@ namespace LeahsPlatinumTracker
                 foreach (Condition condition in sector.Conditions)
                 {
                     if (IsFastTravelCondition(condition)) continue;
+                    if (considerFlags && !condition.RequiredChecks.MeetsRequirements(Checks)) continue;
 
                     MapSector accessSector = GetMapSector(condition.AccessMap);
                     if (accessSector == null) continue;
@@ -985,10 +989,11 @@ namespace LeahsPlatinumTracker
         /// </summary>
         /// <param name="startLocation">The <see cref="MapSector.MapID"/> of the starting location.</param>
         /// <param name="endLocation">The <see cref="MapSector.MapID"/> of the destination location.</param>
+        /// <param name="considerFlags">See <see cref="BuildLocationGraph"/>.</param>
         /// <returns>An ordered list of <see cref="MapSector.MapID"/>s representing the shortest path, or <b>null</b> if no path exists.</returns>
-        public List<string> FindShortestPath(string startLocation, string endLocation)
+        public List<string> FindShortestPath(string startLocation, string endLocation, bool considerFlags = false)
         {
-            Dictionary<string, HashSet<string>> graph = BuildLocationGraph();
+            Dictionary<string, HashSet<string>> graph = BuildLocationGraph(considerFlags);
             if (!graph.ContainsKey(startLocation) || !graph.ContainsKey(endLocation)) return null;
             if (startLocation == endLocation) return new List<string> { startLocation };
 
@@ -1033,11 +1038,12 @@ namespace LeahsPlatinumTracker
         /// <param name="endLocation">The <see cref="MapSector.MapID"/> of the destination location.</param>
         /// <param name="maxResults">The maximum amount of paths to return.</param>
         /// <param name="maxDepth">The maximum amount of locations that can be visited within a single path.</param>
+        /// <param name="considerFlags">See <see cref="BuildLocationGraph"/>.</param>
         /// <returns>A list of paths, with each path being an ordered list of <see cref="MapSector.MapID"/>s.</returns>
-        public List<List<string>> FindAllPaths(string startLocation, string endLocation, int maxResults = 250, int maxDepth = 15)
+        public List<List<string>> FindAllPaths(string startLocation, string endLocation, int maxResults = 250, int maxDepth = 15, bool considerFlags = false)
         {
             List<List<string>> results = new List<List<string>>();
-            Dictionary<string, HashSet<string>> graph = BuildLocationGraph();
+            Dictionary<string, HashSet<string>> graph = BuildLocationGraph(considerFlags);
             if (!graph.ContainsKey(startLocation) || !graph.ContainsKey(endLocation)) return results;
 
             HashSet<string> visited = new HashSet<string>();

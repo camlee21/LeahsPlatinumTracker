@@ -33,6 +33,7 @@ namespace LeahsPlatinumTracker
             this.lblAllPathsHeader = new System.Windows.Forms.Label();
             this.txtShortest = new System.Windows.Forms.TextBox();
             this.lblShortestHeader = new System.Windows.Forms.Label();
+            this.btnFlagsConsidered = new System.Windows.Forms.Button();
             this.btnFindPath = new System.Windows.Forms.Button();
             this.comboTo = new System.Windows.Forms.ComboBox();
             this.lblTo = new System.Windows.Forms.Label();
@@ -48,6 +49,7 @@ namespace LeahsPlatinumTracker
             this.panel1.Controls.Add(this.lblAllPathsHeader);
             this.panel1.Controls.Add(this.txtShortest);
             this.panel1.Controls.Add(this.lblShortestHeader);
+            this.panel1.Controls.Add(this.btnFlagsConsidered);
             this.panel1.Controls.Add(this.btnFindPath);
             this.panel1.Controls.Add(this.comboTo);
             this.panel1.Controls.Add(this.lblTo);
@@ -117,6 +119,22 @@ namespace LeahsPlatinumTracker
             this.btnFindPath.Text = "Find Path";
             this.btnFindPath.UseVisualStyleBackColor = false;
             this.btnFindPath.Click += new System.EventHandler(this.btnFindPath_Click);
+            //
+            // btnFlagsConsidered
+            //
+            this.btnFlagsConsidered.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(209)))), ((int)(((byte)(209)))));
+            this.btnFlagsConsidered.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(155)))), ((int)(((byte)(155)))));
+            this.btnFlagsConsidered.FlatAppearance.BorderSize = 2;
+            this.btnFlagsConsidered.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFlagsConsidered.Font = new System.Drawing.Font("Nirmala UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnFlagsConsidered.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(155)))), ((int)(((byte)(155)))));
+            this.btnFlagsConsidered.Location = new System.Drawing.Point(135, 105);
+            this.btnFlagsConsidered.Name = "btnFlagsConsidered";
+            this.btnFlagsConsidered.Size = new System.Drawing.Size(176, 25);
+            this.btnFlagsConsidered.TabIndex = 9;
+            this.btnFlagsConsidered.Text = "Flags Considered: Off";
+            this.btnFlagsConsidered.UseVisualStyleBackColor = false;
+            this.btnFlagsConsidered.Click += new System.EventHandler(this.btnFlagsConsidered_Click);
             //
             // lblShortestHeader
             //
@@ -194,6 +212,7 @@ namespace LeahsPlatinumTracker
         private Label lblTo;
         private ComboBox comboTo;
         private Button btnFindPath;
+        private Button btnFlagsConsidered;
         private Label lblShortestHeader;
         private TextBox txtShortest;
         private Label lblAllPathsHeader;
